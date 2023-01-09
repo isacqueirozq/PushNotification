@@ -1,7 +1,13 @@
+//Notifications
 import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
 import React, { useState, useEffect, useRef } from 'react';
 import { Text, View, Platform, StyleSheet } from 'react-native';
+//Tab Navigation
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import HomeScreen from './screens/Home';
+import RelatorioScreen from './screens/Relatorio';
 
 
 Notifications.setNotificationHandler({
@@ -11,6 +17,10 @@ Notifications.setNotificationHandler({
     shouldSetBadge: false,
   }),
 });
+
+//Tab navigation
+const Tab = createBottomTabNavigator();
+//--
 
 export default function App() {
 
@@ -36,9 +46,12 @@ export default function App() {
   }, []);
 
   return (
-    <View style={styles.container}>
-      <Text>Your expo push token: {expoPushToken}</Text>
-    </View>
+    <NavigationContainer>
+      <Tab.Navigator>
+        <Tab.Screen name="Home" component={HomeScreen} />
+        <Tab.Screen name="Relatorio de Campo" component={RelatorioScreen} />
+      </Tab.Navigator>
+    </NavigationContainer>
   );
 }
 
