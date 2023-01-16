@@ -57,7 +57,7 @@ export {InputText, InputNumeric}
 
 const stylesInput = StyleSheet.create({
   text:{
-    width:'90%', 
+    width:'100%', 
     height:"auto",
     justifyContent:'center',
   },
