@@ -4,10 +4,7 @@ import * as Notifications from 'expo-notifications';
 import React, { useState, useEffect, useRef } from 'react';
 import { Text, View, Platform, StyleSheet } from 'react-native';
 //Tab Navigation
-import { NavigationContainer } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import HomeScreen from './screens/Home';
-import RelatorioScreen from './screens/Relatorio';
+import TabNavigation from './navigation/TabNavigation';
 
 
 Notifications.setNotificationHandler({
@@ -17,10 +14,6 @@ Notifications.setNotificationHandler({
     shouldSetBadge: false,
   }),
 });
-
-//Tab navigation
-const Tab = createBottomTabNavigator();
-//--
 
 export default function App() {
 
@@ -46,12 +39,7 @@ export default function App() {
   }, []);
 
   return (
-    <NavigationContainer>
-      <Tab.Navigator>
-        <Tab.Screen name="Home" component={HomeScreen} />
-        <Tab.Screen name="Relatorio de Campo" component={RelatorioScreen} />
-      </Tab.Navigator>
-    </NavigationContainer>
+    <TabNavigation/>
   );
 }
 
@@ -100,11 +88,11 @@ async function registerForPushNotificationsAsync() {
   return token;
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+// const styles = StyleSheet.create({
+//   container: {
+//     // flex: 1,
+//     // backgroundColor: '#fff',
+//     // alignItems: 'center',
+//     // justifyContent: 'center',
+//   },
+// });
