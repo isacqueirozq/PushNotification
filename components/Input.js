@@ -17,8 +17,8 @@ function InputText(props){
   return(
     <View style={stylesInput.text}>
         <TextInput
-        style={stylesInput.input}
-        placeholder="Input"
+        style={props.style}
+        placeholder={props.placeholder}
         ></TextInput>
     </View>
   );
@@ -81,7 +81,7 @@ const stylesInput = StyleSheet.create({
   input:{
     textAlign: "center",
     borderRadius:10,
-    backgroundColor:"#f6f6f6",
+    // backgroundColor:"#f6f6f6",
     height:50,
     margin:12,
     fontSize:20,
