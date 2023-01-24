@@ -8,7 +8,7 @@ export default function TesteScreen({ navigation }) {
     
     return (
         <View style={styles.container}>
-           <RelatorioCampo/>
+           <RelatorioCampo Nome={"Nome Completo"}/>
         </View>
     );
 }

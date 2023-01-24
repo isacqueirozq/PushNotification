@@ -1,25 +1,47 @@
-import * as React from 'react';
+import React, {useState,useEffect} from 'react';
 import { Text, View, StyleSheet, Image, Button, TouchableOpacity, Pressable,} from 'react-native';
 import { InputNumeric, InputText } from './Input';
 
-export default function RelatorioCampo() {
-    const data =()=>{
-        alert("Clicou")
-    };
+export default function RelatorioCampo(props) {
+
+    const monthNames = [ 'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio','Junho',
+    'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+    const [month,setMonth] = useState(new Date().getMonth())
+    const [year,setYear] = useState(new Date().getFullYear())
+    // const [data,setData] = useState(month+"/"+year)
+    const previus = () =>{
+        if (month<1) {
+            setMonth(11)
+            setYear(year-1)
+        } else {
+            setMonth(month-1)
+        }
+    }
+    const next = () =>{
+        if (month>10) {
+            setMonth(0)
+            setYear(year+1)
+        } else{
+        setMonth(month+1)
+        }
+    }
+
     return(
         <View style={styles.conteiner}>
             <View style={styles.rowTitle}>
                 <View style={styles.boxTitle}>
-                     <View style={styles.boxMes}>
-                        <Pressable onPress={data}>
-                            <Text tyle={styles.subTitle}>
-                                Janeiro 2023
-                            </Text>
+                    <View style={styles.boxMes}>
+                        <Pressable onPress={previus} style={styles.btn}>
+                            <Text style={{fontSize:15,textAlign:"center"}}>◀</Text>
+                        </Pressable> 
+                        <Text style={{fontSize:15,width:"35%",textAlign:"center"}}>{monthNames[month]+"/"+year}</Text>
+                        <Pressable onPress={next} style={styles.btn}>
+                           <Text style={{fontSize:15,textAlign:"center"}}>▶</Text>  
                         </Pressable>
-                     </View>
-                     <View style={styles.boxNome}>
-                        <InputText placeholder={"Nome completo"} style={styles.itensTitle}/>
-                     </View>
+                    </View>
+                    <View style={styles.boxNome}>
+                        <InputText placeholder={props.Nome} style={styles.itensTitle}/>
+                    </View>
                 </View>    
             </View>
             <View style={styles.row}>
@@ -69,6 +91,7 @@ export default function RelatorioCampo() {
             <TouchableOpacity style={styles.button}>
                 <Text style={styles.buttonText}>Enviar</Text>
             </TouchableOpacity>
+
         </View>
     )
 }
@@ -92,14 +115,8 @@ const styles = StyleSheet.create({
         marginBottom:5,
     },
     rowTitle:{
-        // padding:10,
         flexDirection:'row',
-        // borderStyle:"solid",
-        // borderRadius:10,
-        // borderWidth: 1,
-        // borderColor:'lightgrey',
         marginBottom:15,
-        // backgroundColor:"lightblue"
     },
     itens:{
         fontSize:18,
@@ -126,10 +143,13 @@ const styles = StyleSheet.create({
     },
     boxTitle:{
         justifyContent:"center",
-        height:80,
+        height:100,
         width:"100%",
     },
     boxMes:{
+        flexDirection:'row',
+        justifyContent:"flex-end",
+        
         // backgroundColor:"purple",
         alignItems:"flex-end",
         marginBottom:5,
@@ -168,4 +188,7 @@ const styles = StyleSheet.create({
         color:"white",
         fontSize:18,
     },
+    btn:{
+       width:50,
+    }
 })
