@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 import { TextInput, View, Text, TouchableOpacity, } from "react-native";
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 // ref={(input)=>{inputRef1.current = input}}
 // maxLength={3}
@@ -24,17 +24,32 @@ function InputText(props){
   );
 };
 
+
+
 function InputNumeric(props) {
-  const [X, setX] = useState(0);
-  const increment = ()=>{setX(X+1)}
-  const decrement = ()=>{
-    if (X > 0) {
-      setX(X-1)
-    } 
+  const [valor,setValor] = useState(0) 
+  const minimus = (m)=>{
+    if (valor<=0) {
+      return setValor(0)
+    }
   }
+  const add = () =>{
+    setValor(valor+1)
+    props.myValor(valor+1)
+  }
+  const minus = () =>{
+    minimus(setValor(valor-1))
+    if (valor-1 <=0) {
+      props.myValor(0)
+    }else{
+      props.myValor(valor-1)
+    }
+  }
+  
+
   return(
-    <View style={stylesInput.conteinerNumber}>
-      <TouchableOpacity style={stylesInput.btn} onPress={decrement}>
+    <View style={stylesInput.conteinerNumber}> 
+      <TouchableOpacity style={stylesInput.btn} onPress={minus}>
           <Text style={stylesInput.bt}>-</Text>
       </TouchableOpacity>
 
@@ -43,10 +58,13 @@ function InputNumeric(props) {
       placeholder="0"
       keyboardType="numeric"
       maxLength={3}
-      onChangeText = {setX}
-      >{X}</TextInput>
-
-      <TouchableOpacity style={stylesInput.btn} onPress={increment}>
+      onChangeText={(x)=>{
+        setValor(Number(x),
+        props.myValor(x)
+        )}}
+      >{valor}</TextInput>
+      
+      <TouchableOpacity style={stylesInput.btn} onPress={add}>
           <Text style={stylesInput.bt}>+</Text>
       </TouchableOpacity>
     </View>

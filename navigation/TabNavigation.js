@@ -23,12 +23,13 @@ export default function TabNavigation(){
             let iconName;
 
             if (route.name === 'Home') {
-              iconName = focused
-                ? 'ios-home'
-                : 'ios-home-outline';
+              iconName = focused ? 'ios-home': 'ios-home-outline';
             } 
             else if (route.name === 'Relatorio de Campo') {
               iconName = focused ? 'ios-list' : 'ios-list-outline';
+            }
+            else if (route.name === 'Teste') {
+              iconName = focused ? 'construct-outline' : 'construct-outline';
             }
 
             // You can return any component that you like here!
