@@ -13,26 +13,37 @@ export default function RelatorioCampo(props) {
     'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 
     'Dezembro'
     ];
-    const [month,setMonth] = useState(new Date().getMonth())
+    const [month,setMonth] = useState(new Date().getMonth())//0 = January e 11 = December
     const [year,setYear] = useState(new Date().getFullYear())
-    // const [data,setData] = useState(month+"/"+year)
     const previus = () =>{
-        if (month<1) {
+        const m = month-1
+        if (m<0) {
             setMonth(11)
+            setPrevMonth(10)
             setYear(year-1)
-        } else {
-            setMonth(month-1)
+        }else{
+            setMonth(m)
+            if (m === 0) {
+                setPrevMonth(11)
+            }else{
+                setPrevMonth(m-1)
+            }
         }
+        
     }
     const next = () =>{
-        if (month>10) {
+        const m = month+1
+        if (m>11) {
             setMonth(0)
+            setPrevMonth(11)
             setYear(year+1)
-        } else{
-        setMonth(month+1)
+        }else{
+            setMonth(m)
+            setPrevMonth(m-1)
         }
+        
     } //FIM - SELETOR DE DATA
-
+    
     //*************** FORMULÁRIO - CRUD *********************
     const [result, setResult] = useState(0);
     const itensRelatorio = ["Publications","Videos","Hours","Visity","Estudy"]
@@ -64,7 +75,7 @@ export default function RelatorioCampo(props) {
         })  
     }
    
-    const [name, setName] = useState("Isac")
+    const [name, setName] = useState("")
     const [publication, setPublications] = useState(0)
     const [video, setVideo] = useState(0)
     const [service, setService] = useState("1") //service: 1-publicador, 2-P. Auxiliar, 3-P. Regular, 4-P. Especial/Missionário
@@ -73,12 +84,35 @@ export default function RelatorioCampo(props) {
     const [estudy, setEstudy] = useState(0)
     const [observation, setObservation] = useState("") 
     const {getItem,setItem}= useAsyncStorage("@publicador:relatorios")
+    
     const ONE_SECOND_IN_MS = 400;
     const vibrationConfirm = [
     1 * ONE_SECOND_IN_MS, 
     1 * ONE_SECOND_IN_MS,
     ];
 
+    const [prevPublication, setPrevPublications] = useState(0)
+    const [prevVideo, setPrevVideo] = useState(0)
+    const [prevService, setPrevService] = useState('') //service: 1-publicador, 2-P. Auxiliar, 3-P. Regular, 4-P. Especial/Missionário
+    const [prevHours, setPrevHours] = useState(0)
+    const [prevVisity, setPrevVisity] = useState(0)
+    const [prevEstudy, setPrevEstudy] = useState(0)
+    const [prevMonth, setPrevMonth] = useState(0)
+
+    /*IMPORTA DADOS DO BD-CONFIGURAÇÕES */ 
+    async function showConfig(){
+        // CARREGA NOME DAS CONFIGURAÇÕES PARA RELATORIOS
+        const {getItem,setItem}= useAsyncStorage("@publicador:configuracao")    
+        const response = await getItem()
+        // Se o response existir(?) mostre o valor se não(:) mostre objeto vazio {}
+        const data = response ? JSON.parse(response):"Não encontrado"
+        const myName = data[0].name
+        if (myName) {
+        setName(myName)
+        } else {
+        
+        }
+    }
     /*CRIAR NOVO REGISTRO */
     async function newRelatorio(){
         try {
@@ -106,7 +140,7 @@ export default function RelatorioCampo(props) {
             await setItem(JSON.stringify(data))
             Vibration.vibrate(vibrationConfirm,false)
             alert("Cadastrado com sucesso")
-           getRelatorio()
+            getRelatorio()
         } catch (error) {
             console.log(error);
             alert("ERRO: NÃO CADASTRADO")
@@ -136,7 +170,7 @@ export default function RelatorioCampo(props) {
 
     }
     /*LER SOMENTE UM REGISTRO */
-    async function getRelatorioID(value){
+    async function getRelatorioID(Mes,Ano){
         const response = await getItem()
         // Se o response existir(?) mostre o valor se não(:) mostre objeto vazio {}
         const data = response ? JSON.parse(response):"Não encontrado"
@@ -144,8 +178,15 @@ export default function RelatorioCampo(props) {
         
             // percorre valores salvos
             for (let i = 0; i < data.length; i++) {
-                const element = data[i].id;
-                if (value == element) {
+                const mes = data[i].month;
+                const ano = data[i].year
+                if (Mes == mes && Ano == ano) {
+                    setPrevPublications(data[i].publication)
+                    setPrevVideo(data[i].video)
+                    setPrevHours(data[i].hours)
+                    setPrevVisity(data[i].visity)
+                    setPrevEstudy(data[i].estudy)
+
                    console.log(
                         "ID LOCALIZADO: " + data[i].id +"\n"+
                         "Nome: " + data[i].name +"\n"+
@@ -174,10 +215,9 @@ export default function RelatorioCampo(props) {
         }
     }
     //************************** FORMULÁRIO - CRUD - FIM ********************************* */
-
+    
     useEffect(()=>{
-        
-
+        showConfig()
     },[])
 
     return(
@@ -201,7 +241,7 @@ export default function RelatorioCampo(props) {
             <View style={styles.row}>
                 <View style={styles.box}>
                     <Text style={styles.itens}>Publicações</Text>
-                    <Text style={styles.subItens}>Mês anterior:{publication}</Text>
+                    <Text style={styles.subItens}>Mês anterior:{prevPublication}</Text>
                 </View>
                 <InputNumeric
                     myValor = {(x)=>updateValor(x,"Publications")}
@@ -210,7 +250,7 @@ export default function RelatorioCampo(props) {
             <View style={styles.row}>
                 <View style={styles.box}>
                     <Text style={styles.itens}>Videos</Text>
-                    <Text style={styles.subItens}>Mês anterior:</Text>
+                    <Text style={styles.subItens}>Mês anterior:{prevVideo}</Text>
                 </View>
                 <InputNumeric
                      myValor = {(x)=>updateValor(x,"Videos")}
@@ -219,7 +259,7 @@ export default function RelatorioCampo(props) {
             <View style={styles.row}>
                 <View style={styles.box}>
                     <Text style={styles.itens}>Horas</Text>
-                    <Text style={styles.subItens}>Mês anterior:</Text>
+                    <Text style={styles.subItens}>Mês anterior:{prevHours}</Text>
                 </View>
                 <InputNumeric
                     myValor = {(x)=>updateValor(x,"Hours")}
@@ -228,7 +268,7 @@ export default function RelatorioCampo(props) {
             <View style={styles.row}>
                 <View style={styles.box}>
                     <Text style={styles.itens}>Revisitas</Text>
-                    <Text style={styles.subItens}>Mês anterior:</Text>
+                    <Text style={styles.subItens}>Mês anterior:{prevVisity}</Text>
                 </View>
                 <InputNumeric
                      myValor = {(x)=>updateValor(x,"Visity")}
@@ -237,7 +277,7 @@ export default function RelatorioCampo(props) {
             <View style={styles.row}>
                 <View style={styles.box}>
                     <Text style={styles.itens}>Estudos</Text>
-                    <Text style={styles.subItens}>Mês anterior:</Text>
+                    <Text style={styles.subItens}>Mês anterior:{prevEstudy}</Text>
                 </View>
                 <InputNumeric
                      myValor = {(x)=>updateValor(x,"Estudy")}
@@ -249,6 +289,7 @@ export default function RelatorioCampo(props) {
                     <InputText 
                     placeholder={"Digite aqui"}
                     style={styles.itensTitle}
+                    onChange={setObservation}
                     />
                 </View>
             </View>

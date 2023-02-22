@@ -14,11 +14,16 @@ import { useEffect, useState } from 'react';
 // blurOnSubmit={false}
 
 function InputText(props){
+  const [text,setText] = useState('') 
+  
   return(
     <View style={stylesInput.text}>
         <TextInput
         style={props.style}
         placeholder={props.placeholder}
+        onChange={()=>props.onChange(text)}
+        onChangeText={setText}
+        value={text}
         ></TextInput>
     </View>
   );
@@ -28,7 +33,7 @@ function InputText(props){
 
 function InputNumeric(props) {
   const [valor,setValor] = useState(0) 
-  const minimus = (m)=>{
+  const minimus = ()=>{
     if (valor<=0) {
       return setValor(0)
     }

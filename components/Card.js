@@ -6,10 +6,11 @@ export default function Card(props) {
   return (
     <View style={styles.container}>
       <Text style={styles.paragraph}>
-        <Text >Dados deste aparelho.</Text>
-        <Text>Aparelho: {dados.Nome},</Text>
-        <Text>Modelo: {dados.Modelo}</Text>
-        <Text> OS: {dados.So}</Text>
+        <Text style={{fontSize:20}}>Olá {dados.User}{'\n'}{'\n'}</Text>
+        <Text >INFORMAÇÕES DO DISPOSITIVO{'\n'}</Text>
+        <Text>Aparelho: {dados.Nome}{'\n'}</Text>
+        <Text>Modelo: {dados.Modelo}{'\n'}</Text>
+        <Text> OS: {dados.Os}{'\n'}</Text>
         <Text>API: {dados.Api}</Text>
       </Text>
       <Image style={styles.logo} source={require('../assets/img/icon.png')} />
@@ -17,12 +18,15 @@ export default function Card(props) {
   );
 }
 
+
+
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     justifyContent: 'center',
     padding: 24,
-    backgroundColor:'#ff03',
+    backgroundColor:'#f6f6f6',
+    
   },
   paragraph: {
     margin: 24,
