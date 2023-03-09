@@ -1,5 +1,5 @@
 import React, {useState,useEffect,useRef} from 'react';
-import { Text, View, StyleSheet, Image, Vibration, TouchableOpacity, Pressable,} from 'react-native';
+import { Text, View, StyleSheet, Image, Vibration, TouchableOpacity, Pressable, KeyboardAvoidingView, ScrollView,} from 'react-native';
 import { InputNumeric, InputText } from './Input';
 import {useAsyncStorage} from "@react-native-async-storage/async-storage"
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -221,88 +221,93 @@ export default function RelatorioCampo(props) {
     },[])
 
     return(
-        <View style={styles.conteiner}>
-            <View style={styles.rowTitle}>
-                <View style={styles.boxTitle}>
-                    <View style={styles.boxMes}>
-                        <Pressable onPress={previus} style={styles.btn}>
-                            <Text style={{fontSize:15,textAlign:"center"}}>◀</Text>
-                        </Pressable> 
-                        <Text style={{fontSize:15,width:"35%",textAlign:"center"}}>{monthNames[month]+"/"+year}</Text>
-                        <Pressable onPress={next} style={styles.btn}>
-                           <Text style={{fontSize:15,textAlign:"center"}}>▶</Text>  
-                        </Pressable>
+        <KeyboardAvoidingView style={styles.conteiner}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        keyboardVerticalOffset={50}
+        >
+            <ScrollView>
+                <View style={styles.rowTitle}>
+                    <View style={styles.boxTitle}>
+                        <View style={styles.boxMes}>
+                            <Pressable onPress={previus} style={styles.btn}>
+                                <Text style={{fontSize:15,textAlign:"center"}}>◀</Text>
+                            </Pressable> 
+                            <Text style={{fontSize:15,width:"35%",textAlign:"center"}}>{monthNames[month]+"/"+year}</Text>
+                            <Pressable onPress={next} style={styles.btn}>
+                            <Text style={{fontSize:15,textAlign:"center"}}>▶</Text>  
+                            </Pressable>
+                        </View>
+                        <View style={styles.boxNome}>
+                            <InputText placeholder={name} style={styles.itensTitle}/>
+                        </View>
+                    </View>    
+                </View>
+                <View style={styles.row}>
+                    <View style={styles.box}>
+                        <Text style={styles.itens}>Publicações</Text>
+                        <Text style={styles.subItens}>Mês anterior:{prevPublication}</Text>
                     </View>
-                    <View style={styles.boxNome}>
-                        <InputText placeholder={name} style={styles.itensTitle}/>
-                    </View>
-                </View>    
-            </View>
-            <View style={styles.row}>
-                <View style={styles.box}>
-                    <Text style={styles.itens}>Publicações</Text>
-                    <Text style={styles.subItens}>Mês anterior:{prevPublication}</Text>
-                </View>
-                <InputNumeric
-                    myValor = {(x)=>updateValor(x,"Publications")}
-                />
-            </View>
-            <View style={styles.row}>
-                <View style={styles.box}>
-                    <Text style={styles.itens}>Videos</Text>
-                    <Text style={styles.subItens}>Mês anterior:{prevVideo}</Text>
-                </View>
-                <InputNumeric
-                     myValor = {(x)=>updateValor(x,"Videos")}
-                />
-            </View>
-            <View style={styles.row}>
-                <View style={styles.box}>
-                    <Text style={styles.itens}>Horas</Text>
-                    <Text style={styles.subItens}>Mês anterior:{prevHours}</Text>
-                </View>
-                <InputNumeric
-                    myValor = {(x)=>updateValor(x,"Hours")}
-                />
-            </View>
-            <View style={styles.row}>
-                <View style={styles.box}>
-                    <Text style={styles.itens}>Revisitas</Text>
-                    <Text style={styles.subItens}>Mês anterior:{prevVisity}</Text>
-                </View>
-                <InputNumeric
-                     myValor = {(x)=>updateValor(x,"Visity")}
-                />
-            </View>
-            <View style={styles.row}>
-                <View style={styles.box}>
-                    <Text style={styles.itens}>Estudos</Text>
-                    <Text style={styles.subItens}>Mês anterior:{prevEstudy}</Text>
-                </View>
-                <InputNumeric
-                     myValor = {(x)=>updateValor(x,"Estudy")}
-                />
-            </View>
-            <View style={styles.colum}>
-                <View style={styles.columBox}>
-                    <Text style={styles.columItens}>Obs:</Text>
-                    <InputText 
-                    placeholder={"Digite aqui"}
-                    style={styles.itensTitle}
-                    onChange={setObservation}
+                    <InputNumeric
+                        myValor = {(x)=>updateValor(x,"Publications")}
                     />
                 </View>
-            </View>
-            <TouchableOpacity style={styles.button} onPress={newRelatorio}>
-                <Text style={styles.buttonText}>Enviar</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.button} onPress={removeRelatorio}>
-                <Text style={styles.buttonText}>Remover</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.button} onPress={removeRelatorioAll}>
-                <Text style={styles.buttonText}>Apagar Tudo</Text>
-            </TouchableOpacity>
-        </View>
+                <View style={styles.row}>
+                    <View style={styles.box}>
+                        <Text style={styles.itens}>Videos</Text>
+                        <Text style={styles.subItens}>Mês anterior:{prevVideo}</Text>
+                    </View>
+                    <InputNumeric
+                        myValor = {(x)=>updateValor(x,"Videos")}
+                    />
+                </View>
+                <View style={styles.row}>
+                    <View style={styles.box}>
+                        <Text style={styles.itens}>Horas</Text>
+                        <Text style={styles.subItens}>Mês anterior:{prevHours}</Text>
+                    </View>
+                    <InputNumeric
+                        myValor = {(x)=>updateValor(x,"Hours")}
+                    />
+                </View>
+                <View style={styles.row}>
+                    <View style={styles.box}>
+                        <Text style={styles.itens}>Revisitas</Text>
+                        <Text style={styles.subItens}>Mês anterior:{prevVisity}</Text>
+                    </View>
+                    <InputNumeric
+                        myValor = {(x)=>updateValor(x,"Visity")}
+                    />
+                </View>
+                <View style={styles.row}>
+                    <View style={styles.box}>
+                        <Text style={styles.itens}>Estudos</Text>
+                        <Text style={styles.subItens}>Mês anterior:{prevEstudy}</Text>
+                    </View>
+                    <InputNumeric
+                        myValor = {(x)=>updateValor(x,"Estudy")}
+                    />
+                </View>
+                <View style={styles.colum}>
+                    <View style={styles.columBox}>
+                        <Text style={styles.columItens}>Obs:</Text>
+                        <InputText 
+                        placeholder={"Digite aqui"}
+                        style={styles.itensTitle}
+                        onChange={setObservation}
+                        />
+                    </View>
+                </View>
+                <TouchableOpacity style={styles.button} onPress={newRelatorio}>
+                    <Text style={styles.buttonText}>Enviar</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.button} onPress={removeRelatorio}>
+                    <Text style={styles.buttonText}>Remover</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.button} onPress={removeRelatorioAll}>
+                    <Text style={styles.buttonText}>Apagar Tudo</Text>
+                </TouchableOpacity>
+            </ScrollView>
+        </KeyboardAvoidingView>
     )
 }
 

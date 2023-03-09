@@ -63,10 +63,7 @@ function InputNumeric(props) {
       placeholder="0"
       keyboardType="numeric"
       maxLength={3}
-      onChangeText={(x)=>{
-        setValor(Number(x),
-        props.myValor(x)
-        )}}
+      onChangeText={(x)=>{setValor(Number(x),props.myValor(x)) }}
       >{valor}</TextInput>
       
       <TouchableOpacity style={stylesInput.btn} onPress={add}>

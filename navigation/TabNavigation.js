@@ -6,8 +6,11 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 //Pages
 import HomeScreen from "../screens/Home"
-import RelatorioScreen from "../screens/Relatorio"
-import TesteScreen from '../screens/Teste';
+import RelatorioScreen from '../screens/Relatorio';
+import ConfigScreen from '../screens/Configuracao';
+import PublicadoresScreen from '../screens/Publicadores';
+import CongScreen from '../screens/Congregacao';
+import PublicadorCreate from '../components/PublicadorCreate';
 
 
 //Tab navigation
@@ -24,12 +27,19 @@ export default function TabNavigation(){
 
             if (route.name === 'Home') {
               iconName = focused ? 'ios-home': 'ios-home-outline';
+              
             } 
-            else if (route.name === 'Relatorio de Campo') {
-              iconName = focused ? 'ios-list' : 'ios-list-outline';
+            else if (route.name === 'Congregação') {
+              iconName = focused ? 'briefcase' : 'briefcase-outline';
             }
-            else if (route.name === 'Teste') {
-              iconName = focused ? 'construct-outline' : 'construct-outline';
+            else if (route.name === 'Publicadores') {
+              iconName = focused ? 'person' : 'person-outline';
+            }
+            else if (route.name === 'Relatorio de Campo') {
+              iconName = focused ? 'create' : 'create-outline';
+            }
+            else if (route.name === 'Configurações') {
+              iconName = focused ? 'settings' : 'settings-outline';
             }
 
             // You can return any component that you like here!
@@ -39,9 +49,13 @@ export default function TabNavigation(){
           tabBarInactiveTintColor: 'gray',
         })}
       >
-        <Tab.Screen name="Home" component={HomeScreen} />
-        <Tab.Screen name="Teste" component={TesteScreen} />
+        <Tab.Screen name="Publicadores" component={PublicadoresScreen}/>
         <Tab.Screen name="Relatorio de Campo" component={RelatorioScreen} />
+        <Tab.Screen name="Home" component={HomeScreen} />
+        <Tab.Screen name="Congregação" component={CongScreen} />
+        <Tab.Screen name="Configurações" component={ConfigScreen} />
+        <Tab.Screen name="Cadastro de Publicador" component={PublicadorCreate} />
+        
       </Tab.Navigator>
     </NavigationContainer>
   );

@@ -5,6 +5,7 @@ export default function Card(props) {
   const dados = props.dados;
   return (
     <View style={styles.container}>
+      
       <Text style={styles.paragraph}>
         <Text style={{fontSize:20}}>Olá {dados.User}{'\n'}{'\n'}</Text>
         <Text >INFORMAÇÕES DO DISPOSITIVO{'\n'}</Text>

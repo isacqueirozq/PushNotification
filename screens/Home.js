@@ -65,7 +65,7 @@ export default function HomeScreen({navigation}) {
   } 
 
   useEffect(()=>{
-    //removeAllConfig() //resetar
+    // removeAllConfig() //resetar
     getConfig() // VERIFICA O BANCO DE DADOS SE HÁ ALGO CADASTRADO
   },[])
   

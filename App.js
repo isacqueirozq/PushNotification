@@ -58,7 +58,6 @@ async function inPushNotification(title, message) {
 //Fução que GERA o Token do dispositivo para Push Notification
 async function registerForPushNotificationsAsync() {
   let token;
-
   if (Platform.OS === 'android') {
     await Notifications.setNotificationChannelAsync('default', {
       name: 'default',
@@ -88,11 +87,3 @@ async function registerForPushNotificationsAsync() {
   return token;
 }
 
-// const styles = StyleSheet.create({
-//   container: {
-//     // flex: 1,
-//     // backgroundColor: '#fff',
-//     // alignItems: 'center',
-//     // justifyContent: 'center',
-//   },
-// });
